@@ -1,5 +1,5 @@
 ---
-title: "Linear Regression Mini-competition Group 1 "
+title: "Linear Regression Mini-competition Group 1"
 output: github_document
 ---
 
