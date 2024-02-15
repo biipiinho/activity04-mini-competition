@@ -7,3 +7,82 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 
 ```
+
+```{r libraries}
+library(readr)
+library(tidyverse)
+library(tidymodels)
+```
+
+```{r load data}
+news <- read_csv("data/news.csv")
+news_train <- read_csv("data/news_train.csv")
+news_test <- read_csv("data/news_test.csv")
+
+
+```
+
+
+```{r}
+#Check if there are any missing values.
+duplicates <- news%>%duplicated()
+
+#Displays how many duplicates are present in a table. If a value is not a duplicate, it is placed in 'FALSE'. If the value is a duplicate, it is placed in 'TRUE'.
+duplicates_counts <- duplicates%>%table()
+duplicates_counts
+```
+
+```{r}
+bar_plot <- ggplot(data = news, aes(Topic)) + geom_bar(aes(fill = Topic))
+bar_plot
+```
+
+```{r eTest Train Split eval=FALSE}
+set.seed(631)
+
+news_split <- initial_split(news, prop = 0.8)
+
+news_train <- training(news_split)
+news_test <- testing(news_split)
+```
+
+
+```{r}
+# Create a sample dataframe with a column 'Topics'
+df <- data.frame(
+  Topics = c("microsoft", "economy", "obama", "palestine")
+)
+
+# Create a new column 'TopicNumber' based on the topic
+df$TopicNumber <- match(df$Topics, c("microsoft", "economy", "obama", "palestine"))
+
+# Print the dataframe
+print(df)
+```
+
+
+
+
+```{r}
+model <- lm(SentimentHeadline ~ SentimentTitle + Facebook + GooglePlus + LinkedIn + Topic, data = news_train)
+```
+
+
+```{r}
+summary(model)
+```
+
+
+```{r}
+predictions
+```
+
+```{r}
+summary(model)
+```
+
+
+```{r}
+colnames(news)
+```
+
