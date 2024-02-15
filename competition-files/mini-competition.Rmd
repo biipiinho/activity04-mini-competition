@@ -7,3 +7,22 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r install packages}
+# install.packages("Microsoft365R")
+```
+
+
+```{r load packages}
+library(readr)
+library(tidyverse)
+library(tidymodels)
+library(Microsoft365R)
+```
+
+```{r load data}
+news_train <- read.csv('news_train.csv')
+news_test <- read.csv('news_test.csv')
+
+```
+
+
