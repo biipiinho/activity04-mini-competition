@@ -7,3 +7,76 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE) 
 
 ```
+
+### Libraries
+```{r R-libraries, include=FALSE}
+library(tidymodels)
+library(tidyverse)
+library(dplyr)
+library(lmtest)
+library(car)
+
+```
+
+
+### Load Data
+```{r}
+News <- read.csv("~/STA 631/Activity/activity04-mini-competition/competition-files/news.csv")
+summary(News)
+```
+
+### Test and Train Data after Splitting
+```{r}
+news_train <- read.csv("~/STA 631/Activity/activity04-mini-competition/competition-files/news_train.csv") 
+news_test <-  read.csv("~/STA 631/Activity/activity04-mini-competition/competition-files/news_test.csv")
+```
+
+### Build a Linear Model
+```{r}
+model <- lm(SentimentHeadline ~ SentimentTitle + Facebook + GooglePlus + LinkedIn + Topic, data = news_train)
+summary(model)
+```
+
+
+### Non-linearity of the Data
+```{r}
+plot(residuals(model) ~ fitted(model), main="Residuals vs Fitted", xlab="Fitted values", ylab="Residuals")
+abline(h=0, col="red")
+```
+
+### Correlation of Error Terms (Residuals):
+```{r}
+acf(residuals((model)))
+```
+
+
+```{r durbinWatsonTest}
+durbinWatsonTest(model)
+```
+
+### Non-constant Variance of Error Terms (Heteroscedasticity):
+```{r}
+plot(residuals(model) ~ fitted(model), main="Residuals vs Fitted for Heteroscedasticity", xlab="Fitted values", ylab="Residuals")
+```
+
+### Outliers: To identify outliers, we use Cook's distance plots.
+```{r}
+plot(model, which = 4)
+```
+
+### Outliers: To identify outliers, we use Cook's distance plots.
+```{r Cooks-Distance-Plot}
+plot(model, which = 4)
+```
+
+### High Leverage Points:Using Leverage Statistic
+```{r Leverage-Plot}
+plot(model, which = 5)
+```
+
+#Collinearity:Using Variance Inflation Factor (VIF)
+```{r VIF}
+vif(model)
+```
+
+
